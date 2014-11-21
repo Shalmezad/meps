@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.util.FlxPoint;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.tile.FlxTilemap;
@@ -20,10 +21,23 @@ class GameState extends FlxState
     tilemap = new FlxTilemap();
     var mapText:String = Assets.getText("assets/data/map.csv");
     trace(mapText);
-    tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 2);
+    tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 4);
+
+
+    //Need to put the player on a legal tile:
+    var legalTiles:Array<FlxPoint> = tilemap.getTileCoords(3, true);
+    player.x = legalTiles[0].x;
+    player.y = legalTiles[0].y;
+    
 
     add(tilemap);
     add(player);
+
+    FlxG.camera.follow(player);
+
+    FlxG.worldBounds.set(0,0,tilemap.width, tilemap.height);
+
+
 	}
 	
 	override public function destroy():Void
@@ -34,5 +48,6 @@ class GameState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+    FlxG.collide(player, tilemap);
 	}	
 }
