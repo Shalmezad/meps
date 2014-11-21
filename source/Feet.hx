@@ -59,7 +59,7 @@ class Feet extends FlxGroup
     {
       if(onScreenOnce)
       {
-        trace("Kill feet");
+        //trace("Kill feet");
       }
     }
   }
