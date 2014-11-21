@@ -27,6 +27,7 @@ class GameState extends FlxState
 
     //Load a foot:
     foot = new Foot();
+    foot.angle += 45;
 
     //Need to put the player on a legal tile:
     var legalTiles:Array<FlxPoint> = tilemap.getTileCoords(3, true);
