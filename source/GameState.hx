@@ -22,8 +22,7 @@ class GameState extends FlxState
     //load the tilemap
     tilemap = new FlxTilemap();
     var mapText:String = Assets.getText("assets/data/map.csv");
-    trace(mapText);
-    tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 4);
+    tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 5);
 
     //Load a foot:
     feet = new Feet();
