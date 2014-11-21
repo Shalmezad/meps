@@ -3,7 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.group.FlxGroup;
+import flixel.group.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 
@@ -12,16 +12,18 @@ class MenuState extends FlxState
 
   var cloudTimer:Int = 0;
 
-  var clouds:FlxGroup;
+  var clouds:FlxTypedGroup<Cloud>;
 
 	override public function create():Void
 	{
 		super.create();
 
+    bgColor = 0x6b6b6b;
 
-    //clouds = new F
-    var cloud:Cloud = new Cloud();
-    add(cloud);
+    clouds = new FlxTypedGroup();
+    add(clouds);
+    //var cloud:Cloud = new Cloud();
+    //add(cloud);
 
     var buffer:Int = 40;
     var titleText = new FlxText(buffer,20,Main.gameWidth - buffer * 2, "MONSTERS of EPIC PROPORTIONS");
@@ -45,6 +47,13 @@ class MenuState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+    cloudTimer--;
+    if(cloudTimer <= 0)
+    {
+      cloudTimer = 60;
+      var cloud:Cloud = clouds.recycle(Cloud);
+      cloud.resetCloud();
+    }
 	}	
 
   private function startGame():Void
