@@ -1,11 +1,13 @@
 package;
 
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.util.FlxPoint;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.tile.FlxTile;
 import flixel.tile.FlxTilemap;
 import openfl.Assets;
 
@@ -32,7 +34,6 @@ class GameState extends FlxState
     player.x = legalTiles[0].x;
     player.y = legalTiles[0].y;
     
-
     add(tilemap);
     add(player);
     add(feet);
@@ -40,8 +41,7 @@ class GameState extends FlxState
     FlxG.camera.follow(player);
 
     FlxG.worldBounds.set(0,0,tilemap.width, tilemap.height);
-
-
+    
 	}
 	
 	override public function destroy():Void
@@ -53,5 +53,27 @@ class GameState extends FlxState
 	{
 		super.update();
     FlxG.collide(player, tilemap);
+    var i:Int =0;
+    while(i<2)
+    {
+      tilemap.overlapsWithCallback(cast(feet.members[i], FlxObject), footStompTile);
+      i++;
+    }
 	}	
+
+  private function footStompTile(t:FlxObject, object2:FlxObject):Bool
+  {
+    var tile:FlxTile = cast(t, FlxTile);
+    var foot:Foot = cast(object2, Foot);
+    
+    if(foot.stage >= foot.FOOT_DOWN_STAGE)
+    {
+      var xPos:Int = Std.int(tile.x / 40);
+      var yPos:Int = Std.int(tile.y / 40);
+
+      tilemap.setTile(xPos, yPos, 4, true);
+    }
+    return false;
+  }
+
 }
