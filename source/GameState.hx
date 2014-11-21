@@ -17,6 +17,7 @@ class GameState extends FlxState
   var tilemap:FlxTilemap;
   var feet:Feet;
 
+  var deadCount:Int = 0;
 
 	override public function create():Void
 	{
@@ -64,6 +65,15 @@ class GameState extends FlxState
 
     FlxG.collide(player,feet );
     FlxG.overlap(player,feet, footStompPlayer);
+    
+    if(!player.alive)
+    {
+      deadCount++;
+      if(deadCount > 300)
+      {
+        FlxG.switchState(new MenuState());
+      }
+    }
 
 	}	
 
