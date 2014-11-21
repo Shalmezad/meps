@@ -13,16 +13,20 @@ class GameState extends FlxState
 {
   var player:Player;
   var tilemap:FlxTilemap;
+  var foot:Foot;
 	override public function create():Void
 	{
 		super.create();
     player = new Player();
 
+    //load the tilemap
     tilemap = new FlxTilemap();
     var mapText:String = Assets.getText("assets/data/map.csv");
     trace(mapText);
     tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 4);
 
+    //Load a foot:
+    foot = new Foot();
 
     //Need to put the player on a legal tile:
     var legalTiles:Array<FlxPoint> = tilemap.getTileCoords(3, true);
@@ -32,6 +36,7 @@ class GameState extends FlxState
 
     add(tilemap);
     add(player);
+    add(foot);
 
     FlxG.camera.follow(player);
 
