@@ -5,7 +5,11 @@ class Foot extends FlxSprite
 {
   var speed:Float = 40; 
   var direction:Float = -.01; 
-  var stage:Float = 1;
+  public var stage:Float = 1;
+
+  public var FOOT_UP_STAGE = .5;
+  public var FOOT_DOWN_STAGE = 1;
+
   public function new()
   {
     super();
@@ -20,11 +24,11 @@ class Foot extends FlxSprite
     this.scale.y = Math.min(stage, 1);
     this.alpha = this.scale.x;
 
-    if(stage <= .5)
+    if(stage <= FOOT_UP_STAGE)
     {
       direction = .01;
     }
-    else if(stage > 2)
+    else if(stage >= FOOT_DOWN_STAGE + FOOT_UP_STAGE)
     {
       direction = -.01;
     }
