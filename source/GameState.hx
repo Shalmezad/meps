@@ -16,6 +16,8 @@ class GameState extends FlxState
   var player:Player;
   var tilemap:FlxTilemap;
   var feet:Feet;
+
+
 	override public function create():Void
 	{
 		super.create();
@@ -39,7 +41,7 @@ class GameState extends FlxState
     add(feet);
 
     FlxG.camera.follow(player);
-
+    FlxG.camera.bounds = tilemap.getBounds();
     FlxG.worldBounds.set(0,0,tilemap.width, tilemap.height);
     
 	}

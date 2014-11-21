@@ -9,6 +9,8 @@ class Feet extends FlxGroup
 
   var distanceFromCenter = 80;
 
+  var onScreenOnce:Bool = false;
+
   public function new()
   {
     super();
@@ -43,5 +45,22 @@ class Feet extends FlxGroup
 
     add(leftFoot);
     add(rightFoot); 
+  }
+
+
+  override public function update():Void
+  {
+    super.update();
+    if(leftFoot.inWorldBounds() || rightFoot.inWorldBounds())
+    {
+      onScreenOnce = true;
+    }
+    else
+    {
+      if(onScreenOnce)
+      {
+        trace("Kill feet");
+      }
+    }
   }
 }
