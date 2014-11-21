@@ -4,7 +4,7 @@ import flixel.FlxObject;
 
 class Foot extends FlxSprite
 {
-  var speed:Float = 40; 
+  var speed:Float = 60; 
   var direction:Float = -.01; 
   public var stage:Float = 1;
 

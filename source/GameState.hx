@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.util.FlxPoint;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -13,11 +14,17 @@ import openfl.Assets;
 
 class GameState extends FlxState
 {
+  var SPAWN_DELAY:Int = 180;
+
+
   var player:Player;
   var tilemap:FlxTilemap;
-  var feet:Feet;
+
+  //var feet:Feet;
+  var monsters:FlxGroup;
 
   var deadCount:Int = 0;
+  var spawnTick:Int = 0;
 
   var key:FlxSprite;
 
@@ -32,6 +39,7 @@ class GameState extends FlxState
     tilemap = new FlxTilemap();
     var mapText:String = Assets.getText("assets/data/map.csv");
     tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 5);
+    Reg.tilemap = tilemap;
 
     key = new FlxSprite();
     key.loadGraphic("assets/images/key.png");
@@ -40,7 +48,8 @@ class GameState extends FlxState
     key.y = Math.random() * tilemap.height/2;
 
     //Load a foot:
-    feet = new Feet();
+    //feet = new Feet();
+    monsters = new FlxGroup();
 
     //Need to put the player on a legal tile:
     var legalTiles:Array<FlxPoint> = tilemap.getTileCoords(3, true);
@@ -50,7 +59,8 @@ class GameState extends FlxState
     add(tilemap);
     add(player);
     add(key);
-    add(feet);
+    //add(feet);
+    add(monsters);
 
     FlxG.camera.follow(player);
     FlxG.camera.bounds = tilemap.getBounds();
@@ -67,16 +77,20 @@ class GameState extends FlxState
 	{
 		super.update();
     FlxG.collide(player, tilemap);
+    /*
     var i:Int =0;
     while(i<2)
     {
       tilemap.overlapsWithCallback(cast(feet.members[i], FlxObject), footStompTile);
       i++;
     }
+    */
 
     tilemap.overlapsWithCallback(cast(player, FlxObject), playerOpenGate);
-    FlxG.collide(player,feet );
-    FlxG.overlap(player,feet, footStompPlayer);
+    //FlxG.collide(player,feet );
+    //FlxG.overlap(player,feet, footStompPlayer);
+    FlxG.collide(player, monsters);
+    FlxG.overlap(player, monsters, footStompPlayer);
     
     if(!player.alive)
     {
@@ -96,7 +110,19 @@ class GameState extends FlxState
       key.y = 5;
     }
 
+    spawnTick--;
+    if(spawnTick <= 0)
+    {
+      spawnFoot();
+      spawnTick = SPAWN_DELAY;
+    } 
+
 	}	
+
+  private function spawnFoot()
+  {
+    monsters.add(new Feet());
+  }
 
   private function footStompPlayer(p:FlxObject, f:FlxObject):Void
   {
