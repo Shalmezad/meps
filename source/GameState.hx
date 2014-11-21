@@ -102,7 +102,7 @@ class GameState extends FlxState
     var tile:FlxTile = cast(t, FlxTile);
     var foot:Foot = cast(object2, Foot);
     
-    if(foot.stage >= foot.FOOT_DOWN_STAGE)
+    if(foot.stage >= foot.FOOT_DOWN_STAGE && tile.index == 5)
     {
       var xPos:Int = Std.int(tile.x / 40);
       var yPos:Int = Std.int(tile.y / 40);
