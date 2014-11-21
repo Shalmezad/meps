@@ -19,8 +19,9 @@ class GameState extends FlxState
 
   var deadCount:Int = 0;
 
-
   var key:FlxSprite;
+
+  var hasKey:Bool = false;
 
 	override public function create():Void
 	{
@@ -73,6 +74,7 @@ class GameState extends FlxState
       i++;
     }
 
+    tilemap.overlapsWithCallback(cast(player, FlxObject), playerOpenGate);
     FlxG.collide(player,feet );
     FlxG.overlap(player,feet, footStompPlayer);
     
@@ -83,6 +85,15 @@ class GameState extends FlxState
       {
         FlxG.switchState(new MenuState());
       }
+    }
+
+    if(FlxG.overlap(player, key))
+    {
+      hasKey = true;
+      key.scrollFactor.x = 0;
+      key.scrollFactor.y = 0;
+      key.x = 5;
+      key.y = 5;
     }
 
 	}	
@@ -118,6 +129,19 @@ class GameState extends FlxState
       var yPos:Int = Std.int(tile.y / 40);
 
       tilemap.setTile(xPos, yPos, 4, true);
+    }
+    return false;
+  }
+
+  private function playerOpenGate(t:FlxObject, object2:FlxObject):Bool
+  {
+    var tile:FlxTile = cast(t, FlxTile);
+    if(tile.index == 7 && hasKey)
+    {
+      var xPos:Int = Std.int(tile.x / 40);
+      var yPos:Int = Std.int(tile.y / 40);
+
+      tilemap.setTile(xPos, yPos, 3, true);
     }
     return false;
   }
