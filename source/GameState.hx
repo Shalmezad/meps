@@ -59,7 +59,20 @@ class GameState extends FlxState
       tilemap.overlapsWithCallback(cast(feet.members[i], FlxObject), footStompTile);
       i++;
     }
+
+    FlxG.collide(player,feet );
+    FlxG.overlap(player,feet, footStompPlayer);
+
 	}	
+
+  private function footStompPlayer(p:FlxObject, f:FlxObject):Void
+  {
+    var foot:Foot = cast(f, Foot);
+    if(foot.stage >= foot.FOOT_DOWN_STAGE)
+    {
+      trace("SQUISH!");
+    }
+  }
 
   private function footStompTile(t:FlxObject, object2:FlxObject):Bool
   {

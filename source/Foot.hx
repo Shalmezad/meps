@@ -1,5 +1,6 @@
 package;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 
 class Foot extends FlxSprite
 {
@@ -14,6 +15,7 @@ class Foot extends FlxSprite
   {
     super();
     loadGraphic("assets/images/footprint.png");
+    immovable = true;
   }
   override public function update():Void
   {
@@ -38,10 +40,12 @@ class Foot extends FlxSprite
 
     if(moving)
     {
+      allowCollisions = FlxObject.NONE;
       move();
     }
     else
     {
+      allowCollisions = FlxObject.ANY;
       velocity.x = 0;
       velocity.y = 0;
     }
