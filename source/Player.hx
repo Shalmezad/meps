@@ -11,7 +11,8 @@ class Player extends FlxSprite
   public function new()
   {
     super();
-    makeGraphic(10,10,0xFFFFFF00);
+    //makeGraphic(10,10,0xFFFFFF00);
+    loadGraphic("assets/images/player.png");
   }
 
   override public function update():Void
@@ -24,18 +25,22 @@ class Player extends FlxSprite
     if(FlxG.keys.pressed.W)
     {
       velocity.y -= SPEED; 
+      this.angle = 0;
     }
     if(FlxG.keys.pressed.S)
     {
       velocity.y += SPEED;
+      this.angle = 180;
     }
     if(FlxG.keys.pressed.A)
     {
       velocity.x -= SPEED;
+      this.angle = 270;
     }
     if(FlxG.keys.pressed.D)
     {
       velocity.x += SPEED;
+      this.angle = 90;
     }
   }
 }
