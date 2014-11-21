@@ -71,6 +71,17 @@ class GameState extends FlxState
     if(foot.stage >= foot.FOOT_DOWN_STAGE)
     {
       trace("SQUISH!");
+      killPlayer();
+    }
+  }
+
+
+  private function killPlayer():Void
+  {
+    if(player.alive)
+    {
+      player.kill();
+      add(new Explosion(player.x, player.y));
     }
   }
 
