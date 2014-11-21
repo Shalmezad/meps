@@ -19,6 +19,9 @@ class GameState extends FlxState
 
   var deadCount:Int = 0;
 
+
+  var key:FlxSprite;
+
 	override public function create():Void
 	{
 		super.create();
@@ -28,6 +31,12 @@ class GameState extends FlxState
     tilemap = new FlxTilemap();
     var mapText:String = Assets.getText("assets/data/map.csv");
     tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 5);
+
+    key = new FlxSprite();
+    key.loadGraphic("assets/images/key.png");
+
+    key.x = Math.random() * tilemap.width/2;
+    key.y = Math.random() * tilemap.height/2;
 
     //Load a foot:
     feet = new Feet();
@@ -39,6 +48,7 @@ class GameState extends FlxState
     
     add(tilemap);
     add(player);
+    add(key);
     add(feet);
 
     FlxG.camera.follow(player);
