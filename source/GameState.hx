@@ -65,6 +65,8 @@ class GameState extends FlxState
     FlxG.camera.follow(player);
     FlxG.camera.bounds = tilemap.getBounds();
     FlxG.worldBounds.set(0,0,tilemap.width, tilemap.height);
+    //FlxG.sound.playMusic("assets/music/gameplay_by_artic_spaceman.mp3", 1, true);
+    FlxG.sound.playMusic(AssetPaths.gameplay_by_artic_spaceman__ogg, 1, true);
     
 	}
 	
