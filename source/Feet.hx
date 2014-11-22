@@ -30,23 +30,23 @@ class Feet extends FlxGroup
     {
       case 0:
         //LEFT SIDE
-        px = -60;
+        px = -120;
         py = Math.random() * Reg.tilemap.height;
         angle = Math.random() * 140 - 70;   
       case 1:
         //TOP SIDE
         px = Math.random() * Reg.tilemap.width;
-        py = -60;
+        py = -120;
         angle = Math.random() * 140 + 110;
       case 2:
         //RIGHT SIDE
-        px = Reg.tilemap.width + 60;
+        px = Reg.tilemap.width + 120;
         py = Math.random() * Reg.tilemap.height;
         angle = Math.random() * 140 + 200;
       case 3:
         //BOTTOM SIDE
         px = Reg.tilemap.width * Math.random();
-        py = Reg.tilemap.height + 60;
+        py = Reg.tilemap.height + 120;
         angle = Math.random() * 140 + 290;
     }
   }

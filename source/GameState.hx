@@ -16,6 +16,8 @@ import openfl.Assets;
 class GameState extends FlxState
 {
   var SPAWN_DELAY:Int = 180;
+  var TILE_WIDTH:Int = 40;
+  var TILE_HEIGHT:Int = 40;
 
 
   var player:Player;
@@ -39,7 +41,7 @@ class GameState extends FlxState
     //load the tilemap
     tilemap = new FlxTilemap();
     var mapText:String = Assets.getText("assets/data/map.csv");
-    tilemap.loadMap(mapText, "assets/images/tilemap.png", 40, 40, 0, 0, 1, 5);
+    tilemap.loadMap(mapText, "assets/images/tilemap.png", TILE_WIDTH, TILE_HEIGHT, 0, 0, 1, 5);
     Reg.tilemap = tilemap;
 
     key = new FlxSprite();
@@ -93,7 +95,7 @@ class GameState extends FlxState
       i++;
     }
 
-    tilemap.overlapsWithCallback(cast(player, FlxObject), playerOpenGate);
+    tilemap.overlapsWithCallback(cast(player, FlxObject), playerTileInteraction);
     //FlxG.collide(player,feet );
     //FlxG.overlap(player,feet, footStompPlayer);
     FlxG.collide(player, monsters);
@@ -158,23 +160,28 @@ class GameState extends FlxState
     
     if(foot.stage >= foot.FOOT_DOWN_STAGE && tile.index == 5)
     {
-      var xPos:Int = Std.int(tile.x / 40);
-      var yPos:Int = Std.int(tile.y / 40);
+      var xPos:Int = Std.int(tile.x / TILE_WIDTH);
+      var yPos:Int = Std.int(tile.y / TILE_HEIGHT);
 
       tilemap.setTile(xPos, yPos, 4, true);
     }
     return false;
   }
 
-  private function playerOpenGate(t:FlxObject, object2:FlxObject):Bool
+  private function playerTileInteraction(t:FlxObject, object2:FlxObject):Bool
   {
     var tile:FlxTile = cast(t, FlxTile);
     if(tile.index == 7 && hasKey)
     {
-      var xPos:Int = Std.int(tile.x / 40);
-      var yPos:Int = Std.int(tile.y / 40);
+      var xPos:Int = Std.int(tile.x / TILE_WIDTH);
+      var yPos:Int = Std.int(tile.y / TILE_HEIGHT);
 
       tilemap.setTile(xPos, yPos, 3, true);
+    }
+    if(tile.index == 8 && hasKey)
+    {
+      //OMG YOU WIN!!!
+      FlxG.switchState(new GameWinState());
     }
     return false;
   }
