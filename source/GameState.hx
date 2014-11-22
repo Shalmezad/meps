@@ -5,6 +5,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
+import flixel.group.FlxTypedGroup;
 import flixel.util.FlxPoint;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -21,7 +22,7 @@ class GameState extends FlxState
   var tilemap:FlxTilemap;
 
   //var feet:Feet;
-  var monsters:FlxGroup;
+  var monsters:FlxTypedGroup<Feet>;
 
   var deadCount:Int = 0;
   var spawnTick:Int = 0;
@@ -49,7 +50,7 @@ class GameState extends FlxState
 
     //Load a foot:
     //feet = new Feet();
-    monsters = new FlxGroup();
+    monsters = new FlxTypedGroup();
 
     //Need to put the player on a legal tile:
     var legalTiles:Array<FlxPoint> = tilemap.getTileCoords(3, true);
@@ -83,14 +84,14 @@ class GameState extends FlxState
 	{
 		super.update();
     FlxG.collide(player, tilemap);
-    /*
+
     var i:Int =0;
-    while(i<2)
+    while(i<monsters.members.length)
     {
-      tilemap.overlapsWithCallback(cast(feet.members[i], FlxObject), footStompTile);
+      tilemap.overlapsWithCallback(cast(monsters.members[i].members[0], FlxObject), footStompTile);
+      tilemap.overlapsWithCallback(cast(monsters.members[i].members[1], FlxObject), footStompTile);
       i++;
     }
-    */
 
     tilemap.overlapsWithCallback(cast(player, FlxObject), playerOpenGate);
     //FlxG.collide(player,feet );
