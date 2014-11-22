@@ -1,6 +1,8 @@
 package;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
+import flixel.system.FlxSound;
 
 class Foot extends FlxSprite
 {
@@ -11,11 +13,15 @@ class Foot extends FlxSprite
   public var FOOT_UP_STAGE = .5;
   public var FOOT_DOWN_STAGE = 1;
 
+  private var _sndStomp:FlxSound;
+  private var playedStomp:Bool = false;
+
   public function new()
   {
     super();
     loadGraphic("assets/images/footprint.png");
     immovable = true;
+    _sndStomp = FlxG.sound.load(AssetPaths.stomp__wav);
   }
   override public function update():Void
   {
@@ -36,7 +42,22 @@ class Foot extends FlxSprite
     }
 
     var moving:Bool = stage < 1;
+
+    if(Math.abs(stage-FOOT_DOWN_STAGE) < direction && direction > 0 && !playedStomp)
+    {
+      //assets/aounds/stomp.wav      
+      if(Math.abs(this.x - Reg.player.x) < 100 && Math.abs(this.y - Reg.player.y) < 100)
+      {
+        //trace("boom");
+        _sndStomp.play();
+        playedStomp = true;
+      }
+    }
  
+    if(direction < 0)
+    {
+      playedStomp = false;
+    }
 
     if(moving)
     {

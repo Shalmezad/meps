@@ -11,6 +11,7 @@ class Player extends FlxSprite
   public function new()
   {
     super();
+    Reg.player = this;
     //makeGraphic(10,10,0xFFFFFF00);
     loadGraphic("assets/images/player.png");
   }
